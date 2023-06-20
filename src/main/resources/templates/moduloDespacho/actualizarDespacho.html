@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+
+<head th:replace="layout/layout :: head">
+
+	<style>
+		@import url('https://fonts.googleapis.com/css?family=Montserrat:400,700');
+
+		body {
+			font-family: 'Montserrat', sans-serif;
+			background-color: #f8f9fa;
+		}
+
+		.card {
+			border-radius: 10px;
+			box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+		}
+
+		.form-control {
+			border: none;
+			border-radius: 20px;
+			background-color: #f8f9fa;
+			box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+		}
+
+		.form-control:focus {
+			box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+			outline: none;
+		}
+
+		.btn-primary {
+			background-color: #007bff;
+			border: none;
+			border-radius: 20px;
+			transition: background-color 0.3s ease;
+		}
+
+		.btn-primary:hover {
+			background-color: #0056b3;
+		}
+
+		.alert-danger {
+			background-color: #f8d7da;
+			border-color: #f5c6cb;
+			color: #721c24;
+			padding: 0.75rem 1.25rem;
+			margin-bottom: 1rem;
+			border-radius: 10px;
+		}
+
+		@keyframes fadeIn {
+			from {
+				opacity: 0;
+			}
+
+			to {
+				opacity: 1;
+			}
+		}
+
+		.fadeIn {
+			animation: fadeIn 0.5s ease-in-out;
+		}
+	</style>
+
+</head>
+
+<body>
+
+	<header th:replace="layout/layout :: header"></header>
+	<aside th:replace="layout/layout :: sidebar"></aside>
+	<main id="main" class="main">
+		<div class="pagetitle">
+			<nav>
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="/ventasOnline">Home</a></li>
+					<li class="breadcrumb-item">Clientes</li>
+					<li class="breadcrumb-item"><a href="/ventasOnline/despacho/listar">Tabla</a></li>
+					<li class="breadcrumb-item active" th:text="${subTitulo}"></li>
+				</ol>
+			</nav>
+		</div>
+		<section class="section">
+			
+				<div class="row">
+					<div class="col-lg">
+						<div class="card">
+							<div class="card-body">
+								<h5 class="card-title text-center">ACTUALIZAR DESPACHO</h5>
+								<form th:action="@{/despacho/guardar}" th:object="${despacho}" method="POST">
+									<div class="form-group row mb-3">
+										<label for="inputText" class="col-sm-2 col-form-label">ID Despacho:</label>
+										<div class="col-sm-10">
+											<input type="text" class="form-control" id="id" th:field="*{id_despacho}"
+												th:errorclass="'form-control alert-danger'" readonly="readonly" />
+												<small
+                                            class="form-text text-danger" th:if="${#fields.hasErrors('id_despacho')}"
+                                            th:errors="*{id_despacho}"></small>
+											<span id="id_despacho"></span>
+										</div>
+									</div>
+
+									<div class="form-group row mb-3">
+										<label for="inputText" class="col-sm-2 col-form-label">Tienda</label>
+										<div class="col-sm-10">
+											<input oninput="validarSoloLetras()" type="text" class="form-control"
+												id="nombre" th:field="*{nombre}"
+												th:errorclass="'form-control alert-danger'">
+											<small class="form-text text-danger" th:if="${#fields.hasErrors('nombre')}"
+												th:errors="*{nombre}"></small>
+											<span id="nombre-aviso"></span>
+										</div>
+									</div>
+
+									<script>
+										function validarSoloLetras() {
+											var input = document.getElementById('nombre');
+											var nombreAviso = document.getElementById('nombre-aviso');
+											var letters = /^[A-Za-z]/;
+
+											if (!input.value.match(letters)) {
+												nombreAviso.innerHTML = 'Solo se permiten letras.';
+												input.value = input.value.replace(/[^A-Za-z]/g, '');
+											} else {
+												nombreAviso.innerHTML = '';
+											}
+										}
+									</script>
+									<div class="form-group row mb-3">
+										<label for="inputText" class="col-sm-2 col-form-label">Dirección</label>
+										<div class="col-sm-10">
+											<input type="text" class="form-control" th:field="*{direccion}"
+												th:errorclass="'form-control alert-danger'"><small
+												class="form-text text-danger" th:if="${#fields.hasErrors('direccion')}"
+												th:errors="*{direccion}"></small>
+										</div>
+									</div>
+									<div class="form-group row mb-3">
+										<label for="inputText" class="col-sm-2 col-form-label">Razon Social</label>
+										<div class="col-sm-10">
+											<input oninput="validarSoloLetras()" type="text" class="form-control" th:field="*{razon_social}"
+												th:errorclass="'form-control alert-danger'"><small
+												class="form-text text-danger" th:if="${#fields.hasErrors('razon_social')}"
+												th:errors="*{razon_social}"></small>
+										</div>
+									</div>
+
+									<div class="row mb-3">
+										<div class="col-sm-10 offset-lg-2 text-center">
+											<button type="submit" class="btn btn-primary"
+												>Enviar</button>
+										</div>
+									</div>
+
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			
+		</section>
+	</main>
+	<footer th:replace="layout/layout :: footer"></footer>
+</body>
+
+</html>
+
+
+Id Nombre Direccion Razon Social

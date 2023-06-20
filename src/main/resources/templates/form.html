@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+
+<head th:replace="layout/layout :: head">
+  
+</head>
+
+<body>
+
+    <header th:replace="layout/layout :: header"></header>
+    <aside th:replace="layout/layout :: sidebar"></aside>
+    <main id="main" class="main">
+        <div class="pagetitle">
+            <nav>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/ventasOnline/">Home</a></li>
+                    <li class="breadcrumb-item">Clientes</li>
+                    <li class="breadcrumb-item"><a href="/listar">Tabla</a></li>
+                    <li class="breadcrumb-item active" th:text="${subTitulo}"></li>
+                </ol>
+            </nav>
+        </div>
+        <section class="section">
+            <div class="row">
+                <div class="col-lg">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title text-center">ACTUALIZAR CLIENTE</h5>
+                            <form th:action="@{/cliente/guardar}" th:object="${cliente}" method="post">
+                            <div class="row mb-3">
+                                    <label for="inputText" class="col-sm-2 col-form-label">Id</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" th:field="*{id_cliente}"
+                                            th:errorclass="'form-control alert-danger'"> <small
+                                            class="form-text text-danger" th:if="${#fields.hasErrors('id_cliente')}"
+                                            th:errors="*{apellido}"></small>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label for="inputText" class="col-sm-2 col-form-label">Nombre</label>
+                                    <div class="col-sm-10">
+                                        <input oninput="validarSoloLetras()" type="text" class="form-control"
+                                            id="nombre" th:field="*{nombre}"
+                                            th:errorclass="'form-control alert-danger'">
+                                        <small class="form-text text-danger" th:if="${#fields.hasErrors('nombre')}"
+                                            th:errors="*{nombre}"></small>
+                                        <span id="nombre-aviso"></span>
+
+                                    </div>
+                                </div>
+                                <script>
+										function validarSoloLetras() {
+											var input = document.getElementById('nombre');
+											var nombreAviso = document.getElementById('nombre-aviso');
+											var letters = /^[A-Za-z]+$/;
+
+											if (!input.value.match(letters)) {
+												nombreAviso.innerHTML = 'Solo se permiten letras.';
+												input.value = input.value.replace(/[^A-Za-z]/g, '');
+											} else {
+												nombreAviso.innerHTML = '';
+											}
+										}
+									</script>
+                                
+                                <div class="row mb-3">
+                                    <label for="inputText" class="col-sm-2 col-form-label">Apellido</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" th:field="*{apellido}" id="apellido"
+                                            th:errorclass="'form-control alert-danger'"> <small
+                                            class="form-text text-danger" th:if="${#fields.hasErrors('apellido')}"
+                                            th:errors="*{apellido}"></small>
+                                    </div>
+                                </div>
+                                <script>
+										function validarSoloLetrasApellido() {
+											var input = document.getElementById('apellido');
+											var apellidoAviso = document.getElementById('apellido-aviso');
+											var letters = /^[A-Za-z]+$/;
+
+											if (!input.value.match(letters)) {
+												apellidoAviso.innerHTML = 'Solo se permiten letras.';
+												input.value = input.value.replace(/[^A-Za-z]/g, '');
+											} else {
+												apellidoAviso.innerHTML = '';
+											}
+										}
+									</script>
+                                <div class="row mb-3">
+                                    <label for="inputText" class="col-sm-2 col-form-label">Dirección</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="direccion" th:field="*{direccion}"
+                                            th:errorclass="'form-control alert-danger'"><small
+                                            class="form-text text-danger" th:if="${#fields.hasErrors('direccion')}"
+                                            th:errors="*{direccion}"></small>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label for="inputText" class="col-sm-2 col-form-label">DNI</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="dni" th:field="*{dni}"
+                                            th:errorclass="'form-control alert-danger'" oninput="validarDNI()">
+                                        <small class="form-text text-danger" th:if="${#fields.hasErrors('dni')}"
+                                            th:errors="*{dni}"></small>
+                                    </div>
+
+                                    <span id="dni-aviso"></span>
+
+                                </div>
+                                <script>
+										function validarDNI() {
+											var input = document.getElementById('dni');
+											var dniAviso = document.getElementById('dni-aviso');
+											var dniValue = input.value.trim();
+											var numbers = /^[0-9]{8}$/;
+
+											if (!dniValue.match(numbers)) {
+												dniAviso.innerHTML = 'El DNI debe contener exactamente 8 números.';
+												input.value = dniValue.replace(/[^0-9]/g, '').substring(0, 8);
+											} else {
+												dniAviso.innerHTML = '';
+											}
+										}
+									</script>
+                                
+                                
+                                <div class="row mb-3">
+                                    <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
+                                    <div class="col-sm-10">
+                                        <input type="email" class="form-control" id="email" th:field="*{email}"
+                                            th:errorclass="'form-control alert-danger'" oninput="validarEmail()">
+                                        <small class="form-text text-danger" th:if="${#fields.hasErrors('email')}"
+                                            th:errors="*{email}"></small>
+                                    </div>
+                                    <span id="email-aviso"></span>
+
+                                </div>
+                                <script>
+										function validarEmail() {
+											var input = document.getElementById('email');
+											var emailAviso = document.getElementById('email-aviso');
+											var emailValue = input.value.trim();
+											var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+											if (!emailPattern.test(emailValue)) {
+												emailAviso.innerHTML = 'Ingrese un correo electrónico válido.';
+											} else {
+												emailAviso.innerHTML = '';
+											}
+										}
+									</script>
+                                
+
+                                <div class="row mb-3">
+                                    
+                                    <div class="col-sm-10 offset-lg-2 text-center">
+                                        <button type="submit" class="btn btn-primary">Enviar</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer th:replace="layout/layout :: footer"></footer>
+</body>
+
+</html>
